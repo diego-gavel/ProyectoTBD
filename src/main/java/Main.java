@@ -1,20 +1,23 @@
-import static spark.Spark.*;
-
 import com.google.gson.Gson;
 import controllersSql2o.DogSql2o;
 import controllersSql2o.UsuarioSql2o;
+import controllersSql2o.VoluntarioSql2o;
 import models.Dog;
 import models.Usuario;
+import models.Voluntario;
 import org.sql2o.Sql2o;
+
+import static spark.Spark.*;
 
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Sql2o sql2o = new Sql2o("jdbc:postgresql://127.0.0.1:5432/TBD","DiegoTBD","tbdpass");
+        Sql2o sql2o = new Sql2o("jdbc:postgresql://127.0.0.1:5432/TBD","tbduser","tbdpass");
         DogSql2o dogSql2o = new DogSql2o(sql2o);
         UsuarioSql2o usuarioSql2o = new UsuarioSql2o(sql2o);
+        VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
 
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");
 
@@ -49,6 +52,17 @@ public class Main {
         post("/usuarios", (req, res)->{
             Usuario usuario = new Gson().fromJson(req.body(), Usuario.class);
             int result = usuarioSql2o.crearUsuario(usuario);
+            res.status(201);
+            return result;
+        });
+
+        get("/voluntarios", (req, res)->{
+            return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
+        });
+
+        post("/voluntarios", (req, res)->{
+            Voluntario voluntario = new Gson().fromJson(req.body(), Voluntario.class);
+            int result = voluntarioSql2o.crearVoluntario(voluntario);
             res.status(201);
             return result;
         });
