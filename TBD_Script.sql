@@ -1,53 +1,63 @@
-create table Emergencia (
-	id_emergencia serial,
-	nombre varchar(30),
-	ubicacion varchar(40),
-	tipo varchar(10),
-	descripcion text,
-	primary key(id_emergencia)
+--user: "tbduser" / pass: "tbdpass"
+
+CREATE ROLE "tbduser" WITH PASSWORD "tbdpass"
+	LOGIN
+	SUPERUSER
+	INHERIT
+	CREATEDB
+	CREATEROLE
+	REPLICATION;
+
+CREATE TABLE Emergencia (
+	id_emergencia SERIAL,
+	nombre VARCHAR(30),
+	ubicacion VARCHAR(40),
+	tipo VARCHAR(10),
+	descripcion TEXT,
+	PRIMARY KEY(id_emergencia)
 );
 
-create table Tarea (
-	id_tarea serial,
-	titulo varchar(30),
-	estado varchar(20),
-	primary key(id_tarea)
+CREATE TABLE Tarea (
+	id_tarea SERIAL,
+	titulo VARCHAR(30),
+	estado VARCHAR(20),
+	PRIMARY KEY(id_tarea)
+);
+
+--revisar permisos, por ahora es TEXT
+CREATE TABLE Rol (
+	id_rol SERIAL,
+	nombre VARCHAR(30),
+	permisos TEXT,
+	PRIMARY KEY(id_rol)
+);
+
+CREATE TABLE Usuario (
+	id_usuario SERIAL,
+	rut VARCHAR(10),
+	nombre VARCHAR(30),
+	edad INT,
+	correo VARCHAR(60),
+	celular VARCHAR(20),
+	PRIMARY KEY(id_usuario)
 );
 
 
-create table Rol (
-	id_rol serial,
-	nombre varchar(30),
-	permisos varchar,
-	primary key(id_rol)
-);
-
-create table Usuario (
-	id_usuario serial,
-	rut varchar(10),
-	nombre varchar(30),
-	edad int,
-	correo varchar(60),
-	celular varchar(20),
-	primary key(id_usuario)
-);
-
-
-create table Voluntario (
-	id_voluntario serial,
-	rut varchar(10),
-	nombre varchar(40),
-	edad int,
-	correo varchar(60),
-	celular varchar(20),
-	peso float, 
-	estatura float,
-	primary key(id_voluntario)
+CREATE TABLE Voluntario (
+	id_voluntario SERIAL,
+	rut VARCHAR(10),
+	nombre VARCHAR(40),
+	edad INT,
+	correo VARCHAR(60),
+	celular VARCHAR(20),
+	peso FLOAT, 
+	estatura FLOAT,
+	PRIMARY KEY(id_voluntario)
 );
 
 --Modificar para despues
-create table Caracteristica (
-	id_caracteristica serial,
-	nombre varchar(30),
-	primary key(id_caracteristica)
+CREATE TABLE Caracteristica (
+	id_caracteristica SERIAL,
+	nombre VARCHAR(30),
+	PRIMARY KEY(id_caracteristica)
 );
