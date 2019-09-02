@@ -1,6 +1,6 @@
 --user: "tbduser" / pass: "tbdpass"
 
-CREATE ROLE "tbduser" WITH PASSWORD "tbdpass"
+CREATE ROLE tbduser WITH PASSWORD 'tbdpass'
 	LOGIN
 	SUPERUSER
 	INHERIT
