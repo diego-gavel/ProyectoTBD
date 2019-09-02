@@ -22,6 +22,7 @@ public class Main {
         UsuarioSql2o usuarioSql2o = new UsuarioSql2o(sql2o);
         VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
 
+//CRUD dog
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");
 
         get("/dogs", (req, res)->{
@@ -47,6 +48,8 @@ public class Main {
             res.status(201);
             return result;
         });
+//Fin CRUD dog
+//CRUD de Usuario-------------------------------------------------------------------------------------------------------
 
         get("/emergencias", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.getAllEmergencias());
@@ -60,7 +63,11 @@ public class Main {
         });
 
         get("/usuarios", (req, res)->{
-            return new Gson().toJson(usuarioSql2o.getAllUsuarios());
+            return new Gson().toJson(usuarioSql2o.obtenerTodosUsuarios());
+        });
+
+        get("/usuarios/:id", (req, res)->{
+            return new Gson().toJson(usuarioSql2o.obtenerUsuario(req.params(":id")));
         });
 
         post("/usuarios", (req, res)->{

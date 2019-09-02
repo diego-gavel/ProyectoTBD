@@ -12,7 +12,7 @@ public class UsuarioSql2o {
         this.sql2o = sql2o;
     }
 
-    public List<Usuario> getAllUsuarios(){
+    public List<Usuario> obtenerTodosUsuarios(){
         try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from usuario")
                     .executeAndFetch(Usuario.class);
@@ -31,4 +31,15 @@ public class UsuarioSql2o {
             return newId;
         }
     }
+
+    public List<Usuario> obtenerUsuario(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from usuario where id_usuario = " + id)
+                    .executeAndFetch(Usuario.class);
+        }
+    }
+
+    /*public String modificarUsuario(String id){
+
+    }*/
 }
