@@ -1,25 +1,25 @@
 create table Emergencia (
-	id serial,
+	id_emergencia serial,
 	nombre varchar(30),
 	ubicacion varchar(40),
 	tipo varchar(10),
 	descripcion text,
-	primary key(id)
+	primary key(id_emergencia)
 );
 
-create table Tareas (
-	id serial,
+create table Tarea (
+	id_tarea serial,
 	titulo varchar(30),
 	estado varchar(20),
-	primary key(id)
+	primary key(id_tarea)
 );
 
 
-create table Implemento (
-	id serial,
+create table Rol (
+	id_rol serial,
 	nombre varchar(30),
-	descripcion text,
-	primary key(id)
+	permisos varchar,
+	primary key(id_rol)
 );
 
 create table Usuario (
@@ -34,13 +34,20 @@ create table Usuario (
 
 
 create table Voluntario (
-	id serial,
+	id_voluntario serial,
 	rut varchar(10),
 	nombre varchar(40),
 	edad int,
 	correo varchar(60),
 	celular varchar(20),
-	peso int, 
-	estatura int,
-	primary key(id)
+	peso float, 
+	estatura float,
+	primary key(id_voluntario)
+);
+
+--Modificar para despues
+create table Caracteristica (
+	id_caracteristica serial,
+	nombre varchar(30),
+	primary key(id_caracteristica)
 );
