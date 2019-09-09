@@ -21,7 +21,10 @@ CREATE TABLE Tarea (
 	id_tarea SERIAL,
 	titulo VARCHAR(30),
 	estado VARCHAR(20),
-	PRIMARY KEY(id_tarea)
+	id_voluntario int,
+	PRIMARY KEY(id_tarea),
+	FOREIGN KEY(id_voluntario)
+	REFERENCES voluntario(id_voluntario)
 );
 
 --revisar permisos, por ahora es TEXT
@@ -45,19 +48,40 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Voluntario (
 	id_voluntario SERIAL,
-	rut VARCHAR(10),
 	nombre VARCHAR(40),
+	apellido VARCHAR(40),
 	edad INT,
 	correo VARCHAR(60),
-	celular VARCHAR(20),
-	peso FLOAT, 
-	estatura FLOAT,
+	sexo VARCHAR(40),
 	PRIMARY KEY(id_voluntario)
 );
 
 --Modificar para despues
-CREATE TABLE Caracteristica (
-	id_caracteristica SERIAL,
+CREATE TABLE dimension (
+	id_dimension SERIAL,
 	nombre VARCHAR(30),
-	PRIMARY KEY(id_caracteristica)
+	PRIMARY KEY(id_dimension)
+);
+
+CREATE TABLE dimension_voluntario (
+    id SERIAL,
+    id_voluntario int,
+    id_dimension int,
+    valor int,
+    PRIMARY KEY(id),
+    FOREIGN KEY(id_voluntario)
+        REFERENCES voluntario(id_voluntario),
+    FOREIGN KEY(id_dimension)
+        REFERENCES dimension(id_dimension)
+);
+
+CREATE TABLE emergencia_tarea (
+    id SERIAL,
+    id_emergencia int,
+    id_tarea int,
+    PRIMARY KEY(id),
+    FOREIGN KEY(id_emergencia)
+        REFERENCES Emergencia(id_emergencia),
+    FOREIGN KEY(id_tarea)
+        REFERENCES Tarea(id_tarea)
 );

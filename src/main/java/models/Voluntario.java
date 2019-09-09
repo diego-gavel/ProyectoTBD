@@ -4,12 +4,10 @@ public class Voluntario {
 
     private long id;
     private String nombre;
-    private int edad;
+    private String apellido;
     private String correo;
-    private String celular;
-    private String rut;
-    private int estatura;
-    private int peso;
+    private String sexo;
+
 
     public long getId() {
         return id;
@@ -27,12 +25,13 @@ public class Voluntario {
         this.nombre = nombre;
     }
 
-    public int getEdad() {
-        return edad;
+
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -43,45 +42,19 @@ public class Voluntario {
         this.correo = correo;
     }
 
-    public String getCelular() {
-        return celular;
+    public String getSexo() {
+        return sexo;
     }
 
-    public void setCelular(String celular) {
-        this.celular = celular;
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
-    public String getRut() {
-        return rut;
-    }
 
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    public int getEstatura() {
-        return estatura;
-    }
-
-    public void setEstatura(int estatura) {
-        this.estatura = estatura;
-    }
-
-    public int getPeso() {
-        return peso;
-    }
-
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-
-    public Voluntario(String nombre, int edad, String correo, String celular, String rut, int estatura,int peso) {
+    public Voluntario(String nombre, String apellido, String correo, String sexo) {
         this.nombre = nombre;
-        this.edad = edad;
+        this.apellido = apellido;
         this.correo = correo;
-        this.celular = celular;
-        this.rut = rut;
-        this.estatura = estatura;
-        this.peso = peso;
+        this.sexo = sexo;
     }
 }
