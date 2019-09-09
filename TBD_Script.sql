@@ -39,7 +39,6 @@ CREATE TABLE Usuario (
 	id_usuario SERIAL,
 	rut VARCHAR(10),
 	nombre VARCHAR(30),
-	edad INT,
 	correo VARCHAR(60),
 	celular VARCHAR(20),
 	PRIMARY KEY(id_usuario)
@@ -50,7 +49,6 @@ CREATE TABLE Voluntario (
 	id_voluntario SERIAL,
 	nombre VARCHAR(40),
 	apellido VARCHAR(40),
-	edad INT,
 	correo VARCHAR(60),
 	sexo VARCHAR(40),
 	PRIMARY KEY(id_voluntario)
