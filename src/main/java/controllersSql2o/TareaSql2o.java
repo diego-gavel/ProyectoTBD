@@ -22,8 +22,8 @@ public class TareaSql2o {
     public int crearTarea(Tarea tarea){
         try(Connection conn = sql2o.open()){
             int newId = conn.createQuery("insert into tarea(titulo, estado) values (:titulo, :estado)")
-                    .addParameter("titulo", voluntario.getTitulo())
-                    .addParameter("estado", voluntario.getEstado())
+                    .addParameter("titulo", tarea.getTitulo())
+                    .addParameter("estado", tarea.getEstado())
                     .executeUpdate().getKey(Integer.class);
             return newId;
         }
