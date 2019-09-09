@@ -39,7 +39,18 @@ public class UsuarioSql2o {
         }
     }
 
-    /*public String modificarUsuario(String id){
+    public Object modificarNombreUsuario(String nombreNuevo, String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("update usuario set nombre = " + nombreNuevo + "where id_usuario = " + id)
+                    .executeUpdate().getKey();
+        }
+    }
 
+    /*public Object eliminarUsuario(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("delete from usuario WHERE id_usuario=" + id)
+                    .executeUpdate().getKey();
+        }
     }*/
+
 }

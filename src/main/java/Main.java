@@ -14,8 +14,37 @@ import static spark.Spark.*;
 
 public class Main {
 
+    // Enables CORS on requests. This method is an initialization method and should be called once.
+    /*private static void enableCORS(final String origin, final String methods, final String headers) {
+
+        options("/*", (request, response) -> {
+
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Headers", headers);
+            response.header("Access-Control-Expose-Headers", "Pagination-Count, Pagination-Limit, Pagination-Count, Pagination-Page");
+            // Note: this may or may not be necessary in your particular application
+            response.type("application/json");
+        });
+    }*/
+
     public static void main(String[] args) {
 
+        /*enableCORS("*","GET,PUT,POST,DELETE,OPTIONS", "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range");*/
         Sql2o sql2o = new Sql2o("jdbc:postgresql://127.0.0.1:5432/TBD","tbduser","tbdpass");
         DogSql2o dogSql2o = new DogSql2o(sql2o);
         EmergenciaSql2o emergenciaSql2o = new EmergenciaSql2o(sql2o);
@@ -48,8 +77,8 @@ public class Main {
             res.status(201);
             return result;
         });
-//Fin CRUD dog
-//CRUD de Usuario-------------------------------------------------------------------------------------------------------
+
+//CRUD emergencias
 
         get("/emergencias", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.getAllEmergencias());
@@ -61,6 +90,8 @@ public class Main {
             res.status(201);
             return result;
         });
+
+//CRUD de Usuario-------------------------------------------------------------------------------------------------------
 
         get("/usuarios", (req, res)->{
             return new Gson().toJson(usuarioSql2o.obtenerTodosUsuarios());
@@ -76,6 +107,16 @@ public class Main {
             res.status(201);
             return result;
         });
+
+        put("/usuarios/:id/:nuevoNombre", (req, res)->{
+            return new Gson().toJson(usuarioSql2o.modificarNombreUsuario((req.params(":nuevoNombre")).toString(),req.params(":id")));
+        });
+
+        /*delete("/usuarios/:id", (req, res)->{
+            return usuarioSql2o.eliminarUsuario(req.params(":id"));
+        });*/
+
+//CRUD voluntarios
 
         get("/voluntarios", (req, res)->{
             return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
