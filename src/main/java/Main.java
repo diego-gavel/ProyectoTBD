@@ -91,6 +91,16 @@ public class Main {
             return result;
         });
 
+        put("/emergencias/:id/:paramObj/:nuevoParam", (req, res)->{
+            return new Gson().toJson(emergenciaSql2o.modificarEmergencia(req.params(":nuevoParam"), req.params(":paramObj"),req.params(":id")));
+        });
+
+        delete("/emergencias/:id", (req, res)->{
+            return emergenciaSql2o.eliminarEmergencia(req.params(":id"));
+        });
+
+
+
 //CRUD de Usuario-------------------------------------------------------------------------------------------------------
 
         get("/usuarios", (req, res)->{

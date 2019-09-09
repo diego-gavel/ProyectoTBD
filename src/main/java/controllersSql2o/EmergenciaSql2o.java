@@ -30,4 +30,26 @@ public class EmergenciaSql2o {
             return newId;
         }
     }
+
+    public List<Emergencia> obtenerEmergencia(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from emergencia where id_emergencia = " + id)
+                    .executeAndFetch(Emergencia.class);
+        }
+    }
+
+    public Object modificarEmergencia(String nombreNuevo, String paramObj, String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("update emergencia set " + paramObj + "= '" + nombreNuevo + "' where id_emergencia = " + id)
+                    .executeUpdate().getKey();
+        }
+    }
+
+    public Object eliminarEmergencia(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("delete from emergencia where id_emergencia=" + id)
+                    .executeUpdate().getKey();
+        }
+    }
+
 }
