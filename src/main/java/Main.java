@@ -108,13 +108,13 @@ public class Main {
             return result;
         });
 
-        put("/usuarios/:id/:nuevoNombre", (req, res)->{
-            return new Gson().toJson(usuarioSql2o.modificarNombreUsuario((req.params(":nuevoNombre")).toString(),req.params(":id")));
+        put("/usuarios/:id/:paramObj/:nuevoParam", (req, res)->{
+            return new Gson().toJson(usuarioSql2o.modificarUsuario(req.params(":nuevoParam"), req.params(":paramObj"),req.params(":id")));
         });
 
-        /*delete("/usuarios/:id", (req, res)->{
+        delete("/usuarios/:id", (req, res)->{
             return usuarioSql2o.eliminarUsuario(req.params(":id"));
-        });*/
+        });
 
 //CRUD voluntarios
 
