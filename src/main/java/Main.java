@@ -132,11 +132,23 @@ public class Main {
             return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
         });
 
+        get("/voluntarios/:id", (req, res)->{
+            return new Gson().toJson(voluntarioSql2o.obtenerVoluntario(req.params(":id")));
+        });
+
         post("/voluntarios", (req, res)->{
             Voluntario voluntario = new Gson().fromJson(req.body(), Voluntario.class);
             int result = voluntarioSql2o.crearVoluntario(voluntario);
             res.status(201);
             return result;
+        });
+
+        put("/voluntarios/:id/:paramObj/:nuevoParam", (req, res)->{
+            return new Gson().toJson(voluntarioSql2o.modificarVoluntario(req.params(":nuevoParam"), req.params(":paramObj"),req.params(":id")));
+        });
+
+        delete("/voluntarios/:id", (req, res)->{
+            return voluntarioSql2o.eliminarVoluntario(req.params(":id"));
         });
 
         after((req, res) -> {

@@ -33,4 +33,25 @@ public class VoluntarioSql2o {
             return newId;
         }
     }
+
+    public List<Voluntario> obtenerVoluntario(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from voluntario where id_voluntario = " + id)
+                    .executeAndFetch(Voluntario.class);
+        }
+    }
+
+    public Object modificarVoluntario(String nombreNuevo, String paramObj, String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("update voluntario set " + paramObj + "= '" + nombreNuevo + "' where id_voluntario = " + id)
+                    .executeUpdate().getKey();
+        }
+    }
+
+    public Object eliminarVoluntario(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("delete from voluntario where id_voluntario=" + id)
+                    .executeUpdate().getKey();
+        }
+    }
 }
