@@ -2,7 +2,7 @@ package models;
 
 public class Voluntario {
 
-    private long id;
+    private long id_voluntario;
     private String nombre;
     private String apellido;
     private String correo;
@@ -10,11 +10,11 @@ public class Voluntario {
 
 
     public long getId() {
-        return id;
+        return id_voluntario;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long id_voluntario) {
+        this.id_voluntario = id_voluntario;
     }
 
     public String getNombre() {

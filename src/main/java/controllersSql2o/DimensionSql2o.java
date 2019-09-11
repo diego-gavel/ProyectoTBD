@@ -1,6 +1,7 @@
 package controllersSql2o;
 
 import models.Dimension;
+import models.Voluntario;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -35,5 +36,13 @@ public class DimensionSql2o {
         }
     }
 
+
+    public List<Voluntario> obtenerVoluntarioDimension(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select v from voluntario v , dimension_voluntario dv" +
+                    " where dv.id_dimension = " + id + " and dv.id_voluntario = v.id_voluntario ")
+                    .executeAndFetch(Voluntario.class);
+        }
+    }
 
 }
