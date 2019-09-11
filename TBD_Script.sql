@@ -17,6 +17,15 @@ CREATE TABLE Emergencia (
 	PRIMARY KEY(id_emergencia)
 );
 
+CREATE TABLE Voluntario (
+	id_voluntario SERIAL,
+	nombre VARCHAR(40),
+	apellido VARCHAR(40),
+	correo VARCHAR(60),
+	sexo VARCHAR(40),
+	PRIMARY KEY(id_voluntario)
+);
+
 CREATE TABLE Tarea (
 	id_tarea SERIAL,
 	titulo VARCHAR(30),
@@ -44,15 +53,6 @@ CREATE TABLE Usuario (
 	PRIMARY KEY(id_usuario)
 );
 
-
-CREATE TABLE Voluntario (
-	id_voluntario SERIAL,
-	nombre VARCHAR(40),
-	apellido VARCHAR(40),
-	correo VARCHAR(60),
-	sexo VARCHAR(40),
-	PRIMARY KEY(id_voluntario)
-);
 
 --Modificar para despues
 CREATE TABLE dimension (

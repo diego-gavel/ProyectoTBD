@@ -1,6 +1,7 @@
 package controllersSql2o;
 
 import models.Voluntario;
+import models.Dimension;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -21,14 +22,11 @@ public class VoluntarioSql2o {
 
     public int crearVoluntario(Voluntario voluntario){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into voluntario(nombre, edad, correo, celular, rut, estatura,peso) values (:nombre, :edad, :correo, :celular, :rut, :estatura, :peso)")
+            int newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo) values (:nombre, :apellido, :correo, :sexo)")
                     .addParameter("nombre", voluntario.getNombre())
-                    .addParameter("edad", voluntario.getEdad())
+                    .addParameter("apellido", voluntario.getApellido())
                     .addParameter("correo", voluntario.getCorreo())
-                    .addParameter("celular", voluntario.getCelular())
-                    .addParameter("rut", voluntario.getRut())
-                    .addParameter("estatura", voluntario.getEstatura())
-                    .addParameter("peso", voluntario.getPeso())
+                    .addParameter("celular", voluntario.getSexo())
                     .executeUpdate().getKey(Integer.class);
             return newId;
         }
@@ -52,6 +50,14 @@ public class VoluntarioSql2o {
         try(Connection conn = sql2o.open()){
             return conn.createQuery("delete from voluntario where id_voluntario=" + id)
                     .executeUpdate().getKey();
+        }
+    }
+
+    public List<Dimension> obtenerDimensionVoluntario(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select d , dv.valor from voluntario v , dimension d , dimension_voluntario dv" +
+                    " where dv.id_voluntario = " + id + " and dv.id_dimension = d.id_dimension ")
+                    .executeAndFetch(Dimension.class);
         }
     }
 }
