@@ -28,4 +28,25 @@ public class TareaSql2o {
             return newId;
         }
     }
+
+    public List<Tarea> obtenerTarea(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from tarea where id_tarea = " + id)
+                    .executeAndFetch(Tarea.class);
+        }
+    }
+
+    public Object modificarTarea(String nombreNuevo, String paramObj, String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("update tarea set " + paramObj + "= '" + nombreNuevo + "' where id_tarea = " + id)
+                    .executeUpdate().getKey();
+        }
+    }
+
+    public Object eliminarTarea(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("delete from tarea where id_tarea=" + id)
+                    .executeUpdate().getKey();
+        }
+    }
 }
