@@ -21,7 +21,7 @@ public class EmergenciaSql2o {
 
     public int crearEmergencia(Emergencia emergencia){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into emergencia (nombre, ubicacion, tipo, descripcion) values (:nombre :ubicacion :tipo :descripcion)")
+            int newId = conn.createQuery("insert into emergencia (nombre, ubicacion, tipo, descripcion) values (:nombre, :ubicacion, :tipo, :descripcion)")
                     .addParameter("nombre", emergencia.getNombre())
                     .addParameter("ubicacion", emergencia.getUbicacion())
                     .addParameter("tipo", emergencia.getTipo())
