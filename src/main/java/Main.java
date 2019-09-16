@@ -84,6 +84,10 @@ public class Main {
             return new Gson().toJson(emergenciaSql2o.getAllEmergencias());
         });
 
+        get("/emergencias/:id", (req, res)->{
+            return new Gson().toJson(emergenciaSql2o.obtenerEmergencia(req.params(":id")));
+        });
+        
         post("/emergencias", (req, res)->{
             Emergencia emergencia = new Gson().fromJson(req.body(), Emergencia.class);
             int result = emergenciaSql2o.crearEmergencia(emergencia);
