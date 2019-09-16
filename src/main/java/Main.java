@@ -3,6 +3,7 @@ import controllersSql2o.DogSql2o;
 import controllersSql2o.EmergenciaSql2o;
 import controllersSql2o.UsuarioSql2o;
 import controllersSql2o.VoluntarioSql2o;
+import controllersSql2o.DimensionSql2o;
 import models.Dog;
 import models.Emergencia;
 import models.Usuario;
@@ -50,6 +51,7 @@ public class Main {
         EmergenciaSql2o emergenciaSql2o = new EmergenciaSql2o(sql2o);
         UsuarioSql2o usuarioSql2o = new UsuarioSql2o(sql2o);
         VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
+        DimensionSql2o dimensionSql2o = new DimensionSql2o(sql2o);
 
 //CRUD dog
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");
@@ -157,6 +159,14 @@ public class Main {
 
         after((req, res) -> {
             res.type("application/json");
+        });
+
+        get("/voluntarios/dimensiones/:id", (req, res)->{
+            return new Gson().toJson(voluntarioSql2o.obtenerDimensionVoluntario(req.params(":id")));
+        });
+
+        get("/dimensiones/voluntarios/:id", (req, res)->{
+            return new Gson().toJson(dimensionSql2o.obtenerVoluntarioDimension(req.params(":id")));
         });
     }
 }
