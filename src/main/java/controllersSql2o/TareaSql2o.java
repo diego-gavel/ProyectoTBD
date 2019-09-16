@@ -1,6 +1,7 @@
 package controllersSql2o;
 
 import models.Tarea;
+import models.Emergencia;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -49,4 +50,13 @@ public class TareaSql2o {
                     .executeUpdate().getKey();
         }
     }
+
+    public List<Emergencia> obtenerEmergencia(String id){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select e from emergencia e, tarea t, emergencia_tarea et where t.id_tarea = " + id + " and " +
+                    "t.id_tarea = et.id_tarea and et.id_emergencia = t.id_emergencia")
+                    .executeAndFetch(Emergencia.class);
+        }
+    }
+
 }
