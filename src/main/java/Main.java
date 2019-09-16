@@ -1,13 +1,12 @@
 import com.google.gson.Gson;
 import controllersSql2o.DogSql2o;
 import controllersSql2o.EmergenciaSql2o;
+import controllersSql2o.Emergencia_tareaSql2o;
+import controllersSql2o.TareaSql2o;
 import controllersSql2o.UsuarioSql2o;
 import controllersSql2o.VoluntarioSql2o;
 import controllersSql2o.DimensionSql2o;
-import models.Dog;
-import models.Emergencia;
-import models.Usuario;
-import models.Voluntario;
+import models.*;
 import org.sql2o.Sql2o;
 
 import static spark.Spark.*;
@@ -49,9 +48,11 @@ public class Main {
         Sql2o sql2o = new Sql2o("jdbc:postgresql://127.0.0.1:5432/TBD","tbduser","tbdpass");
         DogSql2o dogSql2o = new DogSql2o(sql2o);
         EmergenciaSql2o emergenciaSql2o = new EmergenciaSql2o(sql2o);
+        Emergencia_tareaSql2o emergencia_tareaSql2o = new Emergencia_tareaSql2o(sql2o);
         UsuarioSql2o usuarioSql2o = new UsuarioSql2o(sql2o);
         VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
         DimensionSql2o dimensionSql2o = new DimensionSql2o(sql2o);
+        TareaSql2o tareaSql2o = new TareaSql2o(sql2o);
 
 //CRUD dog
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");
@@ -168,5 +169,14 @@ public class Main {
         get("/dimensiones/voluntarios/:id", (req, res)->{
             return new Gson().toJson(dimensionSql2o.obtenerVoluntarioDimension(req.params(":id")));
         });
+
+        get("/tareas/emergencias/:id", (req, res)->{
+            return new Gson().toJson(emergencia_tareaSql2o.obtenerEmergenciaDeTarea(req.params(":id")));
+        });
+
+        get("/emergencias/tareas/:id", (req, res)->{
+            return new Gson().toJson(emergencia_tareaSql2o.obtenerTareaDeEmergencia(req.params(":id")));
+        });
+
     }
 }
