@@ -54,7 +54,7 @@ public class Emergencia_tareaSql2o {
 
     public List<Tarea> obtenerTareaDeEmergencia(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select t from emergencia e, tarea t, emergencia_tarea et where e.id_emergencia = " + id + " and " +
+            return conn.createQuery("select t.id_tarea as id_tarea, t.titulo as titulo, t.estado as estado from emergencia e, tarea t, emergencia_tarea et where e.id_emergencia = " + id + " and " +
                     "e.id_emergencia = et.id_emergencia and et.id_tarea = t.id_tarea")
                     .executeAndFetch(Tarea.class);
         }
@@ -62,8 +62,9 @@ public class Emergencia_tareaSql2o {
 
     public List<Emergencia> obtenerEmergenciaDeTarea(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select e from emergencia e, tarea t, emergencia_tarea et where t.id_tarea = " + id + " and " +
-                    "t.id_tarea = et.id_tarea and et.id_emergencia = t.id_emergencia")
+            return conn.createQuery("select e.id_emergencia as id_emergencia, e.nombre as nombre, e.ubicacion as ubicacion, " +
+                    " e.tipo as tipo, e.descripcion as descripcion  from emergencia e, tarea t, emergencia_tarea et where t.id_tarea = " + id + " and " +
+                    "t.id_tarea = et.id_tarea and et.id_emergencia = e.id_emergencia")
                     .executeAndFetch(Emergencia.class);
         }
     }

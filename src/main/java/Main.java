@@ -178,5 +178,46 @@ public class Main {
             return new Gson().toJson(emergencia_tareaSql2o.obtenerTareaDeEmergencia(req.params(":id")));
         });
 
+        post("/emergencia_tarea", (req, res)->{
+            Emergencia_tarea emergencia_tarea = new Gson().fromJson(req.body(), Emergencia_tarea.class);
+            int result = emergencia_tareaSql2o.crearEmergencia_tarea(emergencia_tarea);
+            res.status(201);
+            return result;
+        });
+
+        get("/emergencia_tarea/:id", (req, res)->{
+            return new Gson().toJson(emergencia_tareaSql2o.obtenerEmergencia_tarea(req.params(":id")));
+        });
+
+        get("/emergencia_tarea", (req, res)->{
+            return new Gson().toJson(emergencia_tareaSql2o.getAllEmergencias());
+        });
+
+//CRUD de Tarea-------------------------------------------------------------------------------------------------------
+
+        get("/tareas", (req, res)->{
+            return new Gson().toJson(tareaSql2o.getAllTareas());
+        });
+
+        get("/tareas/:id", (req, res)->{
+            return new Gson().toJson(tareaSql2o.obtenerTarea(req.params(":id")));
+        });
+
+        post("/tareas", (req, res)->{
+            Tarea tarea = new Gson().fromJson(req.body(), Tarea.class);
+            int result = tareaSql2o.crearTarea(tarea);
+            res.status(201);
+            return result;
+        });
+
+        put("/tareas/:id/:paramObj/:nuevoParam", (req, res)->{
+            return new Gson().toJson(tareaSql2o.modificarTarea(req.params(":nuevoParam"), req.params(":paramObj"),req.params(":id")));
+        });
+
+        delete("/tareas/:id", (req, res)->{
+            return tareaSql2o.eliminarTarea(req.params(":id"));
+        });
+
+
     }
 }

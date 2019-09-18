@@ -2,16 +2,16 @@ package models;
 
 public class Tarea {
 
-    private long id;
+    private long id_tarea;
     private String titulo;
     private String estado;
 
-    public long getId() {
-        return id;
+    public long getId_tarea() {
+        return id_tarea;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId_tarea(long id_tarea) {
+        this.id_tarea = id_tarea;
     }
 
     public String getTitulo() {
