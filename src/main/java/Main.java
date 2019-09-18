@@ -1,11 +1,5 @@
 import com.google.gson.Gson;
-import controllersSql2o.DogSql2o;
-import controllersSql2o.EmergenciaSql2o;
-import controllersSql2o.Emergencia_tareaSql2o;
-import controllersSql2o.TareaSql2o;
-import controllersSql2o.UsuarioSql2o;
-import controllersSql2o.VoluntarioSql2o;
-import controllersSql2o.DimensionSql2o;
+import controllersSql2o.*;
 import models.*;
 import org.sql2o.Sql2o;
 
@@ -53,6 +47,7 @@ public class Main {
         VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
         DimensionSql2o dimensionSql2o = new DimensionSql2o(sql2o);
         TareaSql2o tareaSql2o = new TareaSql2o(sql2o);
+        Dimension_voluntarioSql2o DVSql2o = new Dimension_voluntarioSql2o(sql2o);
 
 //CRUD dog
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");
@@ -218,6 +213,6 @@ public class Main {
             return tareaSql2o.eliminarTarea(req.params(":id"));
         });
 
-
+        DVSql2o.llenarTablaVoluntario();
     }
 }

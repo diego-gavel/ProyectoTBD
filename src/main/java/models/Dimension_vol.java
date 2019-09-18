@@ -7,11 +7,11 @@ public class Dimension_vol {
     private String nombre;
     private int valor;
 
-    public long getId() {
+    public long getId_dimension() {
         return id_dimension;
     }
 
-    public void setId(long id_dimension) {
+    public void setId_dimension(long id_dimension) {
         this.id_dimension = id_dimension;
     }
 
