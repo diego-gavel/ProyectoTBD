@@ -154,7 +154,7 @@ public class Main {
 
         post("/voluntarios", (req, res)->{
             Voluntario voluntario = new Gson().fromJson(req.body(), Voluntario.class);
-            int result = voluntarioSql2o.crearVoluntario(voluntario);
+            long result = voluntarioSql2o.crearVoluntario(voluntario);
             res.status(201);
             return result;
         });
@@ -225,6 +225,19 @@ public class Main {
 
         delete("/tareas/:id", (req, res)->{
             return tareaSql2o.eliminarTarea(req.params(":id"));
+        });
+
+//CRUD Dimension
+
+        get("/dimensiones", (req, res)->{
+            return new Gson().toJson(dimensionSql2o.getAllDimensiones());
+        });
+
+        post("/dimensiones", (req, res)->{
+            Dimension dimension = new Gson().fromJson(req.body(), Dimension.class);
+            int result = dimensionSql2o.crearDimension(dimension);
+            res.status(201);
+            return result;
         });
 
         DVSql2o.llenarTablaVoluntario();

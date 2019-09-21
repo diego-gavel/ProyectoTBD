@@ -21,9 +21,9 @@ public class VoluntarioSql2o {
         }
     }
 
-    public int crearVoluntario(Voluntario voluntario){
+    public long crearVoluntario(Voluntario voluntario){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo) values (:nombre, :apellido, :correo, :sexo)")
+            long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo) values (:nombre, :apellido, :correo, :sexo)")
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
                     .addParameter("correo", voluntario.getCorreo())

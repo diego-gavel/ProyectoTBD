@@ -2,6 +2,7 @@ package models;
 
 public class Dimension_vol {
 
+    private long id;
     private long id_dimension;
     private long id_voluntario;
     private String nombre;
@@ -40,7 +41,9 @@ public class Dimension_vol {
     }
 
 
-    public Dimension_vol(String nombre, int valor) {
+    public Dimension_vol(long id_voluntario, long id_dimension ,String nombre, int valor) {
+        this.id_dimension = id_dimension;
+        this.id_voluntario = id_voluntario;
         this.nombre = nombre;
         this.valor = valor;
     }
