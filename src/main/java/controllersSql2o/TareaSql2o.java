@@ -21,6 +21,16 @@ public class TareaSql2o {
         }
     }
 
+    public List<Tarea> getAllTareasPaginated(int limit, int offset){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from tarea limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Tarea.class);
+        }
+    }
+
+
     public int crearTarea(Tarea tarea){
         try(Connection conn = sql2o.open()){
             int newId = conn.createQuery("insert into tarea(titulo, estado, id_voluntario) values (:titulo, :estado, :id_voluntario)")

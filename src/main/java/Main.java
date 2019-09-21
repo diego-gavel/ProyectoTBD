@@ -79,7 +79,21 @@ public class Main {
 //CRUD emergencias
 
         get("/emergencias", (req, res)->{
-            return new Gson().toJson(emergenciaSql2o.getAllEmergencias());
+            int limit = 10;
+            if ( req.queryParams("limit")!= null){
+                limit = Integer.valueOf(req.queryParams("limit"));
+            }
+
+            int offset = 0;
+            if(req.queryParams("offset")!=null){
+                offset = Integer.valueOf(req.queryParams("offset"));
+            }
+            int total = emergenciaSql2o.totalEmergencias();
+            res.header("Pagination-Count", Integer.toString(total));
+            res.header("Pagination-Page", Integer.toString(offset));
+            res.header("Pagination-Limit", Integer.toString(limit));
+
+            return new Gson().toJson(emergenciaSql2o.getAllEmergenciasPaginated(limit, offset));
         });
 
         get("/emergencias/:id", (req, res)->{

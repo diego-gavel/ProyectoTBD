@@ -20,6 +20,23 @@ public class EmergenciaSql2o {
         }
     }
 
+    public List<Emergencia> getAllEmergenciasPaginated(int limit, int offset){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from emergencia limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Emergencia.class);
+        }
+    }
+
+    public int totalEmergencias(){
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(e) from emergencia e")
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+    }
+
     public int crearEmergencia(Emergencia emergencia){
         try(Connection conn = sql2o.open()){
             int newId = conn.createQuery("insert into emergencia (nombre, ubicacion, tipo, descripcion) values (:nombre, :ubicacion, :tipo, :descripcion)")
