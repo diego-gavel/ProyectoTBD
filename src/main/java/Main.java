@@ -145,7 +145,21 @@ public class Main {
 //CRUD voluntarios
 
         get("/voluntarios", (req, res)->{
-            return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
+            int limit = 10;
+            if ( req.queryParams("limit")!= null){
+                limit = Integer.valueOf(req.queryParams("limit"));
+            }
+
+            int offset = 0;
+            if(req.queryParams("offset")!=null){
+                offset = Integer.valueOf(req.queryParams("offset"));
+            }
+            int total = voluntarioSql2o.totalVoluntarios();
+            res.header("Pagination-Count", Integer.toString(total));
+            res.header("Pagination-Page", Integer.toString(offset));
+            res.header("Pagination-Limit", Integer.toString(limit));
+
+            return new Gson().toJson(voluntarioSql2o.getAllVoluntariosPaginated(limit, offset));
         });
 
         get("/voluntarios/:id", (req, res)->{
@@ -205,7 +219,21 @@ public class Main {
 //CRUD de Tarea-------------------------------------------------------------------------------------------------------
 
         get("/tareas", (req, res)->{
-            return new Gson().toJson(tareaSql2o.getAllTareas());
+            int limit = 10;
+            if ( req.queryParams("limit")!= null){
+                limit = Integer.valueOf(req.queryParams("limit"));
+            }
+
+            int offset = 0;
+            if(req.queryParams("offset")!=null){
+                offset = Integer.valueOf(req.queryParams("offset"));
+            }
+            int total = tareaSql2o.totalTareas();
+            res.header("Pagination-Count", Integer.toString(total));
+            res.header("Pagination-Page", Integer.toString(offset));
+            res.header("Pagination-Limit", Integer.toString(limit));
+
+            return new Gson().toJson(tareaSql2o.getAllTareasPaginated(limit, offset));
         });
 
         get("/tareas/:id", (req, res)->{
@@ -230,7 +258,21 @@ public class Main {
 //CRUD Dimension
 
         get("/dimensiones", (req, res)->{
-            return new Gson().toJson(dimensionSql2o.getAllDimensiones());
+            int limit = 10;
+            if ( req.queryParams("limit")!= null){
+                limit = Integer.valueOf(req.queryParams("limit"));
+            }
+
+            int offset = 0;
+            if(req.queryParams("offset")!=null){
+                offset = Integer.valueOf(req.queryParams("offset"));
+            }
+            int total = dimensionSql2o.totalDimensiones();
+            res.header("Pagination-Count", Integer.toString(total));
+            res.header("Pagination-Page", Integer.toString(offset));
+            res.header("Pagination-Limit", Integer.toString(limit));
+
+            return new Gson().toJson(dimensionSql2o.getAllDimensionesPaginated(limit, offset));
         });
 
         post("/dimensiones", (req, res)->{
