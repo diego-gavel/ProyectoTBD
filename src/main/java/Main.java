@@ -47,7 +47,7 @@ public class Main {
         VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
         DimensionSql2o dimensionSql2o = new DimensionSql2o(sql2o);
         TareaSql2o tareaSql2o = new TareaSql2o(sql2o);
-        Dimension_voluntarioSql2o DVSql2o = new Dimension_voluntarioSql2o(sql2o);
+        Dimension_voluntarioSql2o DVSql2o = new Dimension_voluntarioSql2o(sql2o,voluntarioSql2o);
 
 //CRUD dog
         get("/", (req, res) -> "{\"mensaje\":\"Corriendo\"}");

@@ -46,7 +46,7 @@ public class VoluntarioSql2o {
                     .addParameter("apellido", voluntario.getApellido())
                     .addParameter("correo", voluntario.getCorreo())
                     .addParameter("sexo", voluntario.getSexo())
-                    .executeUpdate().getKey(Integer.class);
+                    .executeUpdate().getKey(Long.class);
             return newId;
         }
     }

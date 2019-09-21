@@ -10,8 +10,13 @@ import java.io.*;
 public class Dimension_voluntarioSql2o {
 
     private Sql2o sql2o;
-    public Dimension_voluntarioSql2o(Sql2o sql2o) { this.sql2o = sql2o; }
     private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
+    public Dimension_voluntarioSql2o(Sql2o sql2o, VoluntarioSql2o voluntarioSql2o )
+    {
+        this.sql2o = sql2o;
+        this.voluntarioSql2o = voluntarioSql2o;
+    }
+
 
     public void crearDim_vol(Dimension_vol dim_vol){
         try(Connection conn = sql2o.open()){
