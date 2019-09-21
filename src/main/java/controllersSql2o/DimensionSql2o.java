@@ -20,6 +20,23 @@ public class DimensionSql2o {
         }
     }
 
+    public List<Dimension> getAllDimensionesPaginated(int limit, int offset){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from dimension limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Dimension.class);
+        }
+    }
+
+    public int totalDimensiones(){
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(d) from dimension d")
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+    }
+
     public int crearDimension(Dimension dimension){
         try(Connection conn = sql2o.open()){
             int newId = conn.createQuery("insert into dimension(nombre) values (:nombre)")

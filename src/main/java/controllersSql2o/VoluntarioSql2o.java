@@ -21,6 +21,24 @@ public class VoluntarioSql2o {
         }
     }
 
+    public List<Voluntario> getAllVoluntariosPaginated(int limit, int offset){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from voluntario limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Voluntario.class);
+        }
+    }
+
+    public int totalVoluntarios(){
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(v) from voluntario v")
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+    }
+
+
     public long crearVoluntario(Voluntario voluntario){
         try(Connection conn = sql2o.open()){
             long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo) values (:nombre, :apellido, :correo, :sexo)")

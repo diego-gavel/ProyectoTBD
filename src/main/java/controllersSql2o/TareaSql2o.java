@@ -30,6 +30,14 @@ public class TareaSql2o {
         }
     }
 
+    public int totalTareas(){
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(t) from tareas t")
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+    }
+
 
     public int crearTarea(Tarea tarea){
         try(Connection conn = sql2o.open()){
