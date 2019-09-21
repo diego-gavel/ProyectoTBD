@@ -5,6 +5,7 @@ public class Tarea {
     private long id_tarea;
     private String titulo;
     private String estado;
+    private long id_voluntario;
 
     public long getId_tarea() {
         return id_tarea;
@@ -32,9 +33,17 @@ public class Tarea {
     }
 
 
+    public long getId_voluntario() {
+        return id_voluntario;
+    }
 
-    public Tarea(String titulo, String estado) {
+    public void setId_voluntario(long id_voluntario) {
+        this.id_voluntario = id_voluntario;
+    }
+
+    public Tarea(String titulo, String estado, long id_voluntario) {
         this.titulo = titulo;
         this.estado = estado;
+        this.id_voluntario = id_voluntario;
     }
 }
