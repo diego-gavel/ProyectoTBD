@@ -20,10 +20,9 @@ public class Dimension_voluntarioSql2o {
 
     public void crearDim_vol(Dimension_vol dim_vol){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into voluntario (id_voluntario, id_dimension, nombre, valor) values (:id_voluntario, :id_dimension, :nombre, :valor)")
+            int newId = conn.createQuery("insert into dimension_voluntario (id_voluntario, id_dimension, valor) values (:id_voluntario, :id_dimension, :valor)")
                     .addParameter("id_voluntario", dim_vol.getId_voluntario())
                     .addParameter("id_dimension", dim_vol.getId_dimension())
-                    .addParameter("nombre", dim_vol.getNombre())
                     .addParameter("valor", dim_vol.getValor())
                     .executeUpdate().getKey(Integer.class);
         }
