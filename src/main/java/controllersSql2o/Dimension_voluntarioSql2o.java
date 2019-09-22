@@ -6,6 +6,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.io.*;
+import java.util.List;
 
 public class Dimension_voluntarioSql2o {
 
@@ -25,6 +26,22 @@ public class Dimension_voluntarioSql2o {
                     .addParameter("id_dimension", dim_vol.getId_dimension())
                     .addParameter("valor", dim_vol.getValor())
                     .executeUpdate().getKey(Integer.class);
+        }
+    }
+
+    public List<Dimension_vol> getAllDim_vol(){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from dimension_voluntario")
+                    .executeAndFetch(Dimension_vol.class);
+        }
+    }
+
+    public List<Dimension_vol> getAllDim_volPaginated(int limit, int offset){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from dimension_voluntario limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Dimension_vol.class);
         }
     }
 
@@ -72,11 +89,6 @@ public class Dimension_voluntarioSql2o {
                 //Conocimiento
                 Dimension_vol DVConocimiento = new Dimension_vol(Long.parseLong(datosVoluntario[0]),5, "conocimiento", Integer.parseInt(dimensiones[4]));
                 crearDim_vol(DVConocimiento);
-
-                //System.out.println(Arrays.toString(dimensiones));
-                //System.out.println(dimensiones[0]);
-                //System.out.println(Arrays.toString(datosVoluntario));
-
             }
         }
         catch (Exception  e) {

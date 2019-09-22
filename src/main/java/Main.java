@@ -240,6 +240,6 @@ public class Main {
             return result;
         });
 
-        DVSql2o.llenarTablaVoluntario();
+        //DVSql2o.llenarTablaVoluntario();
     }
 }
