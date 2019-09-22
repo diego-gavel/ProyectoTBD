@@ -60,6 +60,29 @@ public class Emergencia_tareaSql2o {
         }
     }
 
+    public List<Tarea> obtenerTareaDeEmergenciaPaginated(int limit, int offset, int idd){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select t.id_tarea as id_tarea, t.titulo as titulo, t.estado as estado" +
+                    " from emergencia e, tarea t, emergencia_tarea et where e.id_emergencia = :idd and " +
+                    "e.id_emergencia = et.id_emergencia and et.id_tarea = t.id_tarea limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .addParameter("idd", idd)
+                    .executeAndFetch(Tarea.class);
+        }
+    }
+
+    public int totalTareas(int idd){
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(t)" +
+                    " from emergencia e, tarea t, emergencia_tarea et where e.id_emergencia = :idd and " +
+                    "e.id_emergencia = et.id_emergencia and et.id_tarea = t.id_tarea")
+                    .addParameter("idd", idd)
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+    }
+
     public List<Emergencia> obtenerEmergenciaDeTarea(String id){
         try(Connection conn = sql2o.open()){
             return conn.createQuery("select e.id_emergencia as id_emergencia, e.nombre as nombre, e.ubicacion as ubicacion, " +

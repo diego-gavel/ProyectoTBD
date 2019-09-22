@@ -197,8 +197,25 @@ public class Main {
             return new Gson().toJson(emergencia_tareaSql2o.obtenerEmergenciaDeTarea(req.params(":id")));
         });
 
-        get("/emergencias/tareas/:id", (req, res)->{
-            return new Gson().toJson(emergencia_tareaSql2o.obtenerTareaDeEmergencia(req.params(":id")));
+        get("/tareas_de_emergencias", (req, res)->{
+            int limit = 10;
+            if ( req.queryParams("limit")!= null){
+                limit = Integer.valueOf(req.queryParams("limit"));
+            }
+            int id = 1;
+            if ( req.queryParams("id_emergencia")!= null){
+                id = Integer.valueOf(req.queryParams("id_emergencia"));
+            }
+            int offset = 0;
+            if(req.queryParams("offset")!=null){
+                offset = Integer.valueOf(req.queryParams("offset"));
+            }
+            int total = emergencia_tareaSql2o.totalTareas(id);
+            res.header("Pagination-Count", Integer.toString(total));
+            res.header("Pagination-Page", Integer.toString(offset));
+            res.header("Pagination-Limit", Integer.toString(limit));
+
+            return new Gson().toJson(emergencia_tareaSql2o.obtenerTareaDeEmergenciaPaginated(limit, offset,id));
         });
 
         post("/emergencia_tarea", (req, res)->{
