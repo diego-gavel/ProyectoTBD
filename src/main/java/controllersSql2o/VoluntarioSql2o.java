@@ -67,7 +67,8 @@ public class VoluntarioSql2o {
 
     public Object eliminarVoluntario(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("delete from voluntario where id_voluntario=" + id)
+            return conn.createQuery("delete from dimension_voluntario where id_voluntario=" + id +
+                    ";delete from voluntario where id_voluntario=" + id)
                     .executeUpdate().getKey();
         }
     }
