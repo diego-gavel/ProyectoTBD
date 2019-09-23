@@ -75,7 +75,8 @@ public class VoluntarioSql2o {
 
     public List<Dimension_vol> obtenerDimensionVoluntario(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select d.id_dimension as id_dimension, d.nombre as nombre, dv.valor as valor from voluntario v , dimension d , dimension_voluntario dv" +
+            return conn.createQuery("select d.id_dimension as id_dimension, d.nombre as nombre, dv.valor as valor" +
+                    " from  dimension d , dimension_voluntario dv" +
                     " where dv.id_voluntario = " + id + " and dv.id_dimension = d.id_dimension ")
                     .executeAndFetch(Dimension_vol.class);
         }

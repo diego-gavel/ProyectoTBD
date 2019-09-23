@@ -185,8 +185,12 @@ public class Main {
             res.type("application/json");
         });
 
-        get("/voluntarios/dimensiones/:id", (req, res)->{
-            return new Gson().toJson(voluntarioSql2o.obtenerDimensionVoluntario(req.params(":id")));
+        get("/dimensiones_de_voluntarios", (req, res)->{
+            String id = "1";
+            if ( req.queryParams("id_voluntario")!= null){
+                id = Integer.toString(Integer.valueOf(req.queryParams("id_voluntario")));
+            }
+            return new Gson().toJson(voluntarioSql2o.obtenerDimensionVoluntario(id));
         });
 
         get("/dimensiones/voluntarios/:id", (req, res)->{
