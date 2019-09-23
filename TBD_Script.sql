@@ -31,9 +31,12 @@ CREATE TABLE Tarea (
 	titulo VARCHAR(30),
 	estado VARCHAR(20),
 	id_voluntario int,
+	id_emergencia int,
 	PRIMARY KEY(id_tarea),
 	FOREIGN KEY(id_voluntario)
-	REFERENCES voluntario(id_voluntario)
+	REFERENCES voluntario(id_voluntario),
+    FOREIGN KEY(id_emergencia)
+    REFERENCES emergencia(id_emergencia)
 );
 
 --revisar permisos, por ahora es TEXT
