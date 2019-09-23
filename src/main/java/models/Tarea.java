@@ -50,9 +50,10 @@ public class Tarea {
         this.id_voluntario = id_voluntario;
     }
 
-    public Tarea(String titulo, String estado, long id_voluntario) {
+    public Tarea(String titulo, String estado, long id_voluntario,long id_emergencia) {
         this.titulo = titulo;
         this.estado = estado;
         this.id_voluntario = id_voluntario;
+        this.id_emergencia = id_emergencia;
     }
 }
