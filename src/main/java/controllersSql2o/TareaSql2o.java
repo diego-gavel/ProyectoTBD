@@ -41,10 +41,11 @@ public class TareaSql2o {
 
     public int crearTarea(Tarea tarea){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into tarea(titulo, estado, id_voluntario) values (:titulo, :estado, :id_voluntario)")
+            int newId = conn.createQuery("insert into tarea(titulo, estado, id_voluntario, id_emergencia) values (:titulo, :estado, :id_voluntario, :id_emergencia)")
                     .addParameter("titulo", tarea.getTitulo())
                     .addParameter("estado", tarea.getEstado())
                     .addParameter("id_voluntario", tarea.getId_voluntario())
+                    .addParameter("id_emergencia", tarea.getId_emergencia())
                     .executeUpdate().getKey(Integer.class);
             return newId;
         }

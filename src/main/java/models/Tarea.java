@@ -6,6 +6,15 @@ public class Tarea {
     private String titulo;
     private String estado;
     private long id_voluntario;
+    private long id_emergencia;
+
+    public long getId_emergencia() {
+        return id_emergencia;
+    }
+
+    public void setId_emergencia(long id_emergencia) {
+        this.id_emergencia = id_emergencia;
+    }
 
     public long getId_tarea() {
         return id_tarea;
