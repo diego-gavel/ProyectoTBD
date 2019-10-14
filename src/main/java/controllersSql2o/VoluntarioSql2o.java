@@ -41,11 +41,17 @@ public class VoluntarioSql2o {
 
     public long crearVoluntario(Voluntario voluntario){
         try(Connection conn = sql2o.open()){
-            long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo) values (:nombre, :apellido, :correo, :sexo)")
+            long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo,latitude, longitude , location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude,:location)") /*Agrege location longitude latitude*/
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
                     .addParameter("correo", voluntario.getCorreo())
                     .addParameter("sexo", voluntario.getSexo())
+
+
+                    /*Verificar esto, porque es necesario colocar en la tabla voluntario latitude y longitude*/
+                    .addParameter("latitude", voluntario.getLatitude())
+                    .addParameter("longitude", voluntario.getLongitude())
+                    .addParameter("location", "ST_GeomFromText('POINT("+voluntario.getLatitude() +" "+voluntario.getLongitude()+")', 4326)") /*Esto agrege*/
                     .executeUpdate().getKey(Long.class);
             return newId;
         }

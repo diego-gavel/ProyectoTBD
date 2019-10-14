@@ -8,6 +8,8 @@ CREATE ROLE tbduser WITH PASSWORD 'tbdpass'
 	CREATEROLE
 	REPLICATION;
 
+CREATE EXTENSION postgis;
+
 CREATE TABLE Emergencia (
 	id_emergencia SERIAL,
 	nombre VARCHAR(30),
@@ -25,6 +27,9 @@ CREATE TABLE Voluntario (
 	sexo VARCHAR(40),
 	PRIMARY KEY(id_voluntario)
 );
+
+-- Para que se agrege la columna locacion del voluntario
+ALTER TABLE Voluntario ADD COLUMN location geometry(point);
 
 CREATE TABLE Tarea (
 	id_tarea SERIAL,
