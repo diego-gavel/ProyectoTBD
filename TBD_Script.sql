@@ -39,9 +39,9 @@ CREATE TABLE Tarea (
 	id_emergencia int,
 	PRIMARY KEY(id_tarea),
 	FOREIGN KEY(id_voluntario)
-	REFERENCES voluntario(id_voluntario),
+	    REFERENCES voluntario(id_voluntario),
     FOREIGN KEY(id_emergencia)
-    REFERENCES emergencia(id_emergencia)
+        REFERENCES emergencia(id_emergencia)
 );
 
 --revisar permisos, por ahora es TEXT
