@@ -8,15 +8,11 @@ import org.sql2o.Sql2o;
 import java.io.*;
 import java.util.List;
 
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 public class Dimension_voluntarioSql2o {
 
     private Sql2o sql2o;
-    private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
+    private Sql2o sql2o_v[];
+    private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o_v);
     public Dimension_voluntarioSql2o(Sql2o sql2o, VoluntarioSql2o voluntarioSql2o )
     {
         this.sql2o = sql2o;
@@ -35,74 +31,20 @@ public class Dimension_voluntarioSql2o {
     }
 
     public List<Dimension_vol> getAllDim_vol(){
-        try {
-            ExecutorService executor = Executors.newFixedThreadPool(2);
-            List<Dimension_vol>[] dimensions_vol = new ArrayList[2];
-            for (int i = 0; i < 2; i++) {
-                final int db = i;
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try (Connection conn = sql2o.open()) {
-                            dimensions_vol[db] = conn.createQuery("select * from dimension_voluntario")
-                                    .executeAndFetch(Dimension_vol.class);
-                        }
-                    }
-                });
-            }
-            executor.shutdown();
-            executor.awaitTermination(24 * 3600, TimeUnit.SECONDS);
-            List<Dimension_vol> merged = new ArrayList<Dimension_vol>();
-            for( int i = 0; i < 2; i++){
-                merged.addAll(dimensions_vol[i]);
-            }
-            return merged;
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
         //return dimensions_vol;
-       /* try(Connection conn = sql2o.open()){
+       try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from dimension_voluntario")
                     .executeAndFetch(Dimension_vol.class);
-        }*/
+        }
     }
 
     public List<Dimension_vol> getAllDim_volPaginated(int limit, int offset){
-        try {
-            ExecutorService executor = Executors.newFixedThreadPool(2);
-            List<Dimension_vol>[] dimensions_vol = new ArrayList[2];
-            for (int i = 0; i < 2; i++) {
-                final int db = i;
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try (Connection conn = sql2o.open()) {
-                            dimensions_vol[db] = conn.createQuery("select * from dimension_voluntario limit :limit offset :offset")
-                                    .addParameter("limit", limit)
-                                    .addParameter("offset", offset)
-                                    .executeAndFetch(Dimension_vol.class);
-                        }
-                    }
-                });
-            }
-            executor.shutdown();
-            executor.awaitTermination(24 * 3600, TimeUnit.SECONDS);
-            List<Dimension_vol> merged = new ArrayList<Dimension_vol>();
-            for( int i = 0; i < 2; i++){
-                merged.addAll(dimensions_vol[i]);
-            }
-            return merged;
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
-       /* try (Connection conn = sql2o.open()) {
+       try (Connection conn = sql2o.open()) {
             return conn.createQuery("select * from dimension_voluntario limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Dimension_vol.class);
-        }*/
+        }
     }
 
     public void llenarTablaVoluntario(){
