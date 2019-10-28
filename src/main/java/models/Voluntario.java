@@ -1,5 +1,9 @@
 package models;
 
+import java.awt.*;
+import org.postgis.*;
+import org.postgis.Point;
+
 public class Voluntario {
 
     private long id_voluntario;
@@ -8,25 +12,22 @@ public class Voluntario {
     private String correo;
     private String sexo;
 
-    private String location;
-    private String latitude;
-    private String longitude;
+    private Point location;
+    private float latitude;
+    private float longitude;
 
-    public String getLatitude() {
-        return latitude;
+
+    public Point getLocation() {
+        return location;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
-    public String getLongitude() {
-        return longitude;
-    }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
 
     public long getId_voluntario() {
         return id_voluntario;
@@ -36,13 +37,7 @@ public class Voluntario {
         this.id_voluntario = id_voluntario;
     }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public long getId() {
         return id_voluntario;
@@ -85,11 +80,35 @@ public class Voluntario {
         this.sexo = sexo;
     }
 
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
 
     public Voluntario(String nombre, String apellido, String correo, String sexo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.sexo = sexo;
+    }
+
+    public Voluntario(String nombre, String apellido, String correo, String sexo, float latitude, float longitude) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.sexo = sexo;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

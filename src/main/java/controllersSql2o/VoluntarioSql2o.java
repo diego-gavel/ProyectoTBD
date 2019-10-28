@@ -7,19 +7,25 @@ import org.sql2o.Sql2o;
 
 import java.util.*;
 import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class VoluntarioSql2o {
-    private Sql2o sql2o[];
-    public VoluntarioSql2o(Sql2o[] sql2o) {
+    private Sql2o sql2o;
+    //private Sql2o sql2o[];
+    public VoluntarioSql2o(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
 
     public List<Voluntario> getAllVoluntarios(){
-        try {
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select * from voluntario")
+                    .executeAndFetch(Voluntario.class);
+        }
+        /*try {
             ExecutorService executor = Executors.newFixedThreadPool(2);
             List<Voluntario>[] voluntarios = new ArrayList[2];
             for (int i = 0; i < 2; i++) {
@@ -45,14 +51,20 @@ public class VoluntarioSql2o {
             e.printStackTrace();
         }
         return null;
-        /*try(Connection conn = sql2o.open()){
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from voluntario")
                     .executeAndFetch(Voluntario.class);
         }*/
     }
 
     public List<Voluntario> getAllVoluntariosPaginated(int limit, int offset){
-        try {
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select id_voluntario, nombre, apellido, correo, sexo, latitude, longitude from voluntario limit :limit offset :offset")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(Voluntario.class);
+        }
+        /*try {
             ExecutorService executor = Executors.newFixedThreadPool(2);
             List<Voluntario>[] voluntarios = new ArrayList[2];
             for (int i = 0; i < 2; i++) {
@@ -80,8 +92,10 @@ public class VoluntarioSql2o {
             e.printStackTrace();
         }
         return null;
-        /*try(Connection conn = sql2o.open()){
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from voluntario limit :limit offset :offset")
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select id_voluntario, nombre, apellido, correo, sexo, latitude, longitude from voluntario limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Voluntario.class);
@@ -89,7 +103,13 @@ public class VoluntarioSql2o {
     }
 
     public int totalVoluntarios(){
-        try {
+        try(Connection conn = sql2o.open()){
+            int cantidad = conn.createQuery("select count(v) from voluntario v")
+                    .executeScalar(Integer.class);
+            return cantidad;
+        }
+
+        /*try {
             ExecutorService executor = Executors.newFixedThreadPool(2);
             int total_voluntarios = 0;
             List<String>[] subtotal_voluntarios = new ArrayList[2];
@@ -115,7 +135,7 @@ public class VoluntarioSql2o {
             e.printStackTrace();
         }
         return 0;
-        /*try(Connection conn = sql2o.open()){
+        try(Connection conn = sql2o.open()){
             int cantidad = conn.createQuery("select count(v) from voluntario v")
                     .executeScalar(Integer.class);
             return cantidad;
@@ -124,22 +144,38 @@ public class VoluntarioSql2o {
 
 
     public long crearVoluntario(Voluntario voluntario){
-        int db = (int)voluntario.getId_voluntario() % 2;
+        try(Connection conn = sql2o.open()){
+            long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo, latitude, longitude, location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326))")
+                    .addParameter("nombre", voluntario.getNombre())
+                    .addParameter("apellido", voluntario.getApellido())
+                    .addParameter("correo", voluntario.getCorreo())
+                    .addParameter("sexo", voluntario.getSexo())
+                    .addParameter("latitude", voluntario.getLatitude())
+                    .addParameter("longitude", voluntario.getLongitude())
+                    .addParameter("location", "POINT(" + voluntario.getLatitude() + " " + voluntario.getLongitude()+ ")")
+                    .executeUpdate().getKey(Long.class);
+            System.out.println("Se agrego");
+            return newId;
+        }
+        /*int db = (int)voluntario.getId_voluntario() % 2;
         try(Connection conn = sql2o[db].open()){
-            int newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo,latitude, longitude , location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude,:location)") /*Agrege location longitude latitude*/
+            int newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo,latitude, longitude , location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude,:location)")
+        try(Connection conn = sql2o.open()){
+            long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo, latitude, longitude, location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326))")
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
                     .addParameter("correo", voluntario.getCorreo())
                     .addParameter("sexo", voluntario.getSexo())
 
 
-            /*Verificar esto, porque es necesario colocar en la tabla voluntario latitude y longitude*/
+
                     .addParameter("latitude", voluntario.getLatitude())
                     .addParameter("longitude", voluntario.getLongitude())
-                    .addParameter("location", "ST_GeomFromText('POINT("+voluntario.getLatitude() +" "+voluntario.getLongitude()+")', 4326)") /*Esto agrege*/
+                    .addParameter("location", "POINT(" + voluntario.getLatitude() + " " + voluntario.getLongitude()+ ")")
                     .executeUpdate().getKey(Long.class);
+                    System.out.println("Se agrego");
             return newId;
-        }
+        }*/
         /*try(Connection conn = sql2o.open()){
             long newId = conn.createQuery("insert into voluntario(nombre, apellido, correo, sexo,latitude, longitude , location) values (:nombre, :apellido, :correo, :sexo, :latitude, :longitude,:location)") /*Agrege location longitude latitude*/
                    /* .addParameter("nombre", voluntario.getNombre())
@@ -158,11 +194,15 @@ public class VoluntarioSql2o {
     }
 
     public List<Voluntario> obtenerVoluntario(String id){
-        int db = Integer.parseInt(id) % 2;
-        try(Connection conn = sql2o[db].open()){
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from voluntario where id_voluntario = " + id)
                     .executeAndFetch(Voluntario.class);
         }
+        /*int db = Integer.parseInt(id) % 2;
+        try(Connection conn = sql2o[db].open()){
+            return conn.createQuery("select * from voluntario where id_voluntario = " + id)
+                    .executeAndFetch(Voluntario.class);
+        }*/
        /* try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from voluntario where id_voluntario = " + id)
                     .executeAndFetch(Voluntario.class);
@@ -170,25 +210,34 @@ public class VoluntarioSql2o {
     }
 
     public Object modificarVoluntario(String nombreNuevo, String paramObj, String id){
-        int db = Integer.parseInt(id) % 2;
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("update voluntario set " + paramObj + "= '" + nombreNuevo + "' where id_voluntario = " + id)
+                    .executeUpdate().getKey();
+        }
+        /*int db = Integer.parseInt(id) % 2;
         try(Connection conn = sql2o[db].open()){
             return conn.createQuery("update voluntario set " + paramObj + "= '" + nombreNuevo + "' where id_voluntario = " + id)
                     .executeUpdate().getKey();
         }
-        /*try(Connection conn = sql2o.open()){
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("update voluntario set " + paramObj + "= '" + nombreNuevo + "' where id_voluntario = " + id)
                     .executeUpdate().getKey();
         }*/
     }
 
     public Object eliminarVoluntario(String id){
-        int db = Integer.parseInt(id) % 2;
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("delete from dimension_voluntario where id_voluntario=" + id +
+                    ";delete from voluntario where id_voluntario=" + id)
+                    .executeUpdate().getKey();
+        }
+        /*int db = Integer.parseInt(id) % 2;
         try(Connection conn = sql2o[db].open()){
             return conn.createQuery("delete from dimension_voluntario where id_voluntario=" + id +
                     ";delete from voluntario where id_voluntario=" + id)
                     .executeUpdate().getKey();
         }
-        /*try(Connection conn = sql2o.open()){
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("delete from dimension_voluntario where id_voluntario=" + id +
                     ";delete from voluntario where id_voluntario=" + id)
                     .executeUpdate().getKey();
@@ -196,7 +245,13 @@ public class VoluntarioSql2o {
     }
 
     public List<Dimension_vol> obtenerDimensionVoluntario(String id){
-        int db = Integer.parseInt(id) % 2;
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select d.id_dimension as id_dimension, d.nombre as nombre, dv.valor as valor" +
+                    " from  dimension d , dimension_voluntario dv" +
+                    " where dv.id_voluntario = " + id + " and dv.id_dimension = d.id_dimension ")
+                    .executeAndFetch(Dimension_vol.class);
+        }
+        /*int db = Integer.parseInt(id) % 2;
         try(Connection conn = sql2o[db].open()){
             return conn.createQuery("select d.id_dimension as id_dimension, d.nombre as nombre, dv.valor as valor" +
                     " from  dimension d , dimension_voluntario dv" +

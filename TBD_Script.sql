@@ -10,6 +10,10 @@ CREATE ROLE tbduser WITH PASSWORD 'tbdpass'
 
 CREATE EXTENSION postgis;
 
+
+
+
+
 CREATE TABLE Emergencia (
 	id_emergencia SERIAL,
 	nombre VARCHAR(30),
@@ -25,6 +29,8 @@ CREATE TABLE Voluntario (
 	apellido VARCHAR(40),
 	correo VARCHAR(60),
 	sexo VARCHAR(40),
+	latitude float(20),
+	longitude float(20),
 	PRIMARY KEY(id_voluntario)
 );
 
@@ -91,3 +97,9 @@ CREATE TABLE emergencia_tarea (
     FOREIGN KEY(id_tarea)
         REFERENCES Tarea(id_tarea)
 );
+
+insert into dimension(nombre) values ('Fuerza');
+insert into dimension(nombre) values ('Destreza');
+insert into dimension(nombre) values ('Liderazgo');
+insert into dimension(nombre) values ('Motivacion');
+insert into dimension(nombre) values ('Conocimiento');

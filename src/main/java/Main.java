@@ -309,6 +309,7 @@ public class Main {
             return new Gson().toJson(DVSql2o.getAllDim_vol());
         });
 
-       // DVSql2o.llenarTablaVoluntario();
+        /*Se comenta cada vez que son cargados los voluntarios*/
+        //DVSql2o.llenarTablaVoluntario();
     }
 }

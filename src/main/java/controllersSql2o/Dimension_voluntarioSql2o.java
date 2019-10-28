@@ -12,7 +12,8 @@ public class Dimension_voluntarioSql2o {
 
     private Sql2o sql2o;
     private Sql2o sql2o_v[];
-    private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o_v);
+    private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o);
+    //private VoluntarioSql2o voluntarioSql2o = new VoluntarioSql2o(sql2o_v);
     public Dimension_voluntarioSql2o(Sql2o sql2o, VoluntarioSql2o voluntarioSql2o )
     {
         this.sql2o = sql2o;
@@ -39,7 +40,7 @@ public class Dimension_voluntarioSql2o {
     }
 
     public List<Dimension_vol> getAllDim_volPaginated(int limit, int offset){
-       try (Connection conn = sql2o.open()) {
+        try(Connection conn = sql2o.open()){
             return conn.createQuery("select * from dimension_voluntario limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
@@ -52,7 +53,7 @@ public class Dimension_voluntarioSql2o {
         BufferedReader csvReader = null;
 
         try {
-            csvReader = new BufferedReader(new FileReader("TBD VOLUNTARIOS.csv"));
+            csvReader = new BufferedReader(new FileReader("TBD VOLUNTARIOS - Chile.csv")); /**/
             fila = csvReader.readLine();
             while ( (fila = csvReader.readLine()) != null){
                 String [] datos = fila.split("\\[");
@@ -71,9 +72,28 @@ public class Dimension_voluntarioSql2o {
                 String[] dimensiones = datos[1].split(";");
                 datos[0] = datos[0].replace(",\"", "");
                 String[] datosVoluntario = datos[0].split(",");
+                String[] datosVoluntario2 = datos[2].split(",");
+
+                int fin = datos[2].length(); /*Largo total del string*/
+                int inicio = fin-34; /*Inicio donde empieza la latitud y longitud*/
+
+                String datosLocacion = datos[2].substring(inicio, fin); /*se guarda en datosLocacion cortando solo latidud y longitud*/
+                String[] locacion = datosLocacion.split(",");
+                float longitude = Float.parseFloat(locacion[0]);
+                float latitude = Float.parseFloat(locacion[1]);
+
+                if(longitude>0.0){/*Si el numero es mayo a 0, hay que convertirlo a negativo*/
+                    longitude = longitude-2*longitude;
+
+                }
+
+
+
                 //Se crea e inserta voluntario
-                Voluntario voluntario = new Voluntario(datosVoluntario[1], datosVoluntario[2], datosVoluntario[3], datosVoluntario[4]);
-                System.out.println(datosVoluntario[0]);
+                Voluntario voluntario = new Voluntario(datosVoluntario[1], datosVoluntario[2], datosVoluntario[3], datosVoluntario[4], longitude, latitude);
+
+                System.out.println("Agregado voluntario "+datosVoluntario[0]);
+
                 voluntarioSql2o.crearVoluntario(voluntario);
                 //Se crea e inserta cada tabla intermedia del voluntario
                 //Fuerza
