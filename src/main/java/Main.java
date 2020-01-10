@@ -143,7 +143,7 @@ public class Main {
         });
 
 //CRUD voluntarios
-
+        //todos voluntarios paginacion
         get("/voluntarios", (req, res)->{
             int limit = 10;
             if ( req.queryParams("limit")!= null){
@@ -161,6 +161,12 @@ public class Main {
 
             return new Gson().toJson(voluntarioSql2o.getAllVoluntariosPaginated(limit, offset));
         });
+
+        //todos voluntarios para mapa
+        get("/voluntariosMapa", (req, res)->{
+            return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
+        });
+
 
         get("/voluntarios/:id", (req, res)->{
             return new Gson().toJson(voluntarioSql2o.obtenerVoluntario(req.params(":id")));

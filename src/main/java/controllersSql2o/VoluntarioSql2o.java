@@ -22,39 +22,10 @@ public class VoluntarioSql2o {
 
     public List<Voluntario> getAllVoluntarios(){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select * from voluntario")
+            return conn.createQuery("select id_voluntario, nombre, apellido, correo, sexo, latitude, longitude from voluntario")
                     .executeAndFetch(Voluntario.class);
         }
-        /*try {
-            ExecutorService executor = Executors.newFixedThreadPool(2);
-            List<Voluntario>[] voluntarios = new ArrayList[2];
-            for (int i = 0; i < 2; i++) {
-                final int db = i;
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try (Connection conn = sql2o[db].open()) {
-                            voluntarios[db] = conn.createQuery("select * from voluntario")
-                                    .executeAndFetch(Voluntario.class);
-                        }
-                    }
-                });
-            }
-            executor.shutdown();
-            executor.awaitTermination(24 * 3600, TimeUnit.SECONDS);
-            List<Voluntario> merged = new ArrayList<Voluntario>();
-            for( int i = 0; i < 2; i++){
-                merged.addAll(voluntarios[i]);
-            }
-            return merged;
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
-        try(Connection conn = sql2o.open()){
-            return conn.createQuery("select * from voluntario")
-                    .executeAndFetch(Voluntario.class);
-        }*/
+
     }
 
     public List<Voluntario> getAllVoluntariosPaginated(int limit, int offset){
