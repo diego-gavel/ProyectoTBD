@@ -1,11 +1,40 @@
 package models;
 
+import org.postgis.Point;
+
 public class Emergencia {
     private Long id_emergencia;
     private String nombre;
-    private String ubicacion;
     private String tipo;
     private String descripcion;
+
+    private Point location;
+    private float latitude;
+    private float longitude;
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
 
     public Long getId_emergencia() {
         return id_emergencia;
@@ -23,13 +52,6 @@ public class Emergencia {
         this.nombre = nombre;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
 
     public String getTipo() {
         return tipo;
@@ -47,11 +69,13 @@ public class Emergencia {
         this.descripcion = descripcion;
     }
 
-    public Emergencia(String nombre, String ubicacion, String tipo, String descripcion) {
+    public Emergencia(String nombre, String tipo, String descripcion, float latitude, float longitude) {
         this.nombre = nombre;
-        this.ubicacion = ubicacion;
+
         this.tipo = tipo;
         this.descripcion = descripcion;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
 

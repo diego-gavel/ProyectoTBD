@@ -5,13 +5,8 @@ import models.Tarea;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.io.*;
 import java.util.List;
 
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class EmergenciaSql2o {
     private Sql2o sql2o;
@@ -21,14 +16,14 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> getAllEmergencias(){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select * from emergencia")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia")
                     .executeAndFetch(Emergencia.class);
         }
     }
 
     public List<Emergencia> getAllEmergenciasPaginated(int limit, int offset){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select * from emergencia limit :limit offset :offset")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Emergencia.class);
@@ -45,12 +40,15 @@ public class EmergenciaSql2o {
 
     public int crearEmergencia(Emergencia emergencia){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into emergencia (nombre, ubicacion, tipo, descripcion) values (:nombre, :ubicacion, :tipo, :descripcion)")
+            int newId = conn.createQuery("insert into emergencia (nombre, tipo, descripcion, latitude, longitude, location) values (:nombre, :tipo, :descripcion, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326))")
                     .addParameter("nombre", emergencia.getNombre())
-                    .addParameter("ubicacion", emergencia.getUbicacion())
                     .addParameter("tipo", emergencia.getTipo())
                     .addParameter("descripcion", emergencia.getDescripcion())
+                    .addParameter("latitude", emergencia.getLatitude())
+                    .addParameter("longitude", emergencia.getLongitude())
+                    .addParameter("location", "POINT(" + emergencia.getLatitude() + " " + emergencia.getLongitude()+ ")")
                     .executeUpdate().getKey(Integer.class);
+            System.out.println("Se agrego emergencia.");
             return newId;
         }
     }

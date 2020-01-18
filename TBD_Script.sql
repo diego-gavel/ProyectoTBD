@@ -17,11 +17,15 @@ CREATE EXTENSION postgis;
 CREATE TABLE Emergencia (
 	id_emergencia SERIAL,
 	nombre VARCHAR(30),
-	ubicacion VARCHAR(40),
 	tipo VARCHAR(10),
 	descripcion TEXT,
+	latitude float(20),
+	longitude float(20),
 	PRIMARY KEY(id_emergencia)
 );
+
+-- Para que se agrege la columna locacion de la Emergencia
+ALTER TABLE Emergencia ADD COLUMN location geometry(point);
 
 CREATE TABLE Voluntario (
 	id_voluntario SERIAL,
