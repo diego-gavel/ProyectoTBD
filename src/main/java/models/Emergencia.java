@@ -11,6 +11,7 @@ public class Emergencia {
     private Point location;
     private float latitude;
     private float longitude;
+    private float radius;
 
     public Point getLocation() {
         return location;
@@ -34,6 +35,14 @@ public class Emergencia {
 
     public void setLongitude(float longitude) {
         this.longitude = longitude;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
     public Long getId_emergencia() {

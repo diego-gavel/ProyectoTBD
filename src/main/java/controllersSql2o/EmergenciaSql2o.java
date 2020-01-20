@@ -2,6 +2,7 @@ package controllersSql2o;
 
 import models.Emergencia;
 import models.Tarea;
+import models.Voluntario;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -16,14 +17,14 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> getAllEmergencias(){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, radius longitude from emergencia")
                     .executeAndFetch(Emergencia.class);
         }
     }
 
     public List<Emergencia> getAllEmergenciasPaginated(int limit, int offset){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia limit :limit offset :offset")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude, radius from emergencia limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Emergencia.class);
@@ -47,6 +48,7 @@ public class EmergenciaSql2o {
                     .addParameter("latitude", emergencia.getLatitude())
                     .addParameter("longitude", emergencia.getLongitude())
                     .addParameter("location", "POINT(" + emergencia.getLatitude() + " " + emergencia.getLongitude()+ ")")
+                    .addParameter("radius",  emergencia.getRadius())
                     .executeUpdate().getKey(Integer.class);
             System.out.println("Se agrego emergencia.");
             return newId;
@@ -81,5 +83,20 @@ public class EmergenciaSql2o {
                     .executeAndFetch(Tarea.class);
         }
     }
-
+    public List<Voluntario> buscarVoluntariosCercanos(String id){
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery("select v from emergencia e, voluntario v  " +
+                    "where SQRT(SQUARE(e.latitude - v.latitude) + SQUARE(e.longitude - v.longitude)) <= e.radius and " +
+                    "e.id_emergencia =" + id)
+                    .executeAndFetch(Voluntario.class);
+        }
+    }
+    public List<Voluntario> buscarNVoluntariosCercanos(String id, String total){
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery("select TOP " + total + " v from emergencia e, voluntario v  " +
+                    "where SQRT(SQUARE(e.latitude - v.latitude) + SQUARE(e.longitude - v.longitude)) <= e.radius and " +
+                    "e.id_emergencia =" + id)
+                    .executeAndFetch(Voluntario.class);
+        }
+    }
 }

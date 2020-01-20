@@ -99,6 +99,14 @@ public class Main {
         get("/emergencias/:id", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.obtenerEmergencia(req.params(":id")));
         });
+
+        get("/emergencias/:id/voluntarios", (req, res)->{
+            return new Gson().toJson(emergenciaSql2o.buscarVoluntariosCercanos(req.params(":id")));
+        });
+
+        get("/emergencias/:id/voluntarios/:total", (req, res)->{
+            return new Gson().toJson(emergenciaSql2o.buscarNVoluntariosCercanos(req.params(":id"), req.params(":total")));
+        });
         
         post("/emergencias", (req, res)->{
             Emergencia emergencia = new Gson().fromJson(req.body(), Emergencia.class);
