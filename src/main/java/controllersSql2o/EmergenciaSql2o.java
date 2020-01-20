@@ -17,7 +17,7 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> getAllEmergencias(){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, radius longitude from emergencia")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, radius, longitude from emergencia")
                     .executeAndFetch(Emergencia.class);
         }
     }
@@ -41,7 +41,7 @@ public class EmergenciaSql2o {
 
     public int crearEmergencia(Emergencia emergencia){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into emergencia (nombre, tipo, descripcion, latitude, longitude, location) values (:nombre, :tipo, :descripcion, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326))")
+            int newId = conn.createQuery("insert into emergencia (nombre, tipo, descripcion, latitude, longitude, location, radius) values (:nombre, :tipo, :descripcion, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326), :radius)")
                     .addParameter("nombre", emergencia.getNombre())
                     .addParameter("tipo", emergencia.getTipo())
                     .addParameter("descripcion", emergencia.getDescripcion())
@@ -57,7 +57,7 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> obtenerEmergencia(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select * from emergencia where id_emergencia = " + id)
+            return conn.createQuery("select id_emergencia, nombre, latitude, longitude from emergencia where id_emergencia = "+id)
                     .executeAndFetch(Emergencia.class);
         }
     }
@@ -85,8 +85,8 @@ public class EmergenciaSql2o {
     }
     public List<Voluntario> buscarVoluntariosCercanos(String id){
         try(Connection conn = sql2o.open()) {
-            return conn.createQuery("select v from emergencia e, voluntario v  " +
-                    "where SQRT(SQUARE(e.latitude - v.latitude) + SQUARE(e.longitude - v.longitude)) <= e.radius and " +
+            return conn.createQuery("select id_voluntario from emergencia e, voluntario v  " +
+                    "where |/((e.latitude - v.latitude)^2 + (e.longitude - v.longitude)^2) <= e.radius and " +
                     "e.id_emergencia =" + id)
                     .executeAndFetch(Voluntario.class);
         }
