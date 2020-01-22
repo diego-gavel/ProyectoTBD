@@ -7,6 +7,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class EmergenciaSql2o {
@@ -97,12 +98,27 @@ public class EmergenciaSql2o {
                     .executeAndFetch(Voluntario.class);
         }
     }
-    public List<Voluntario> buscarNVoluntariosCercanos(String id, String total){
+
+
+    public List<Voluntario> buscarNVoluntariosCercanos(int id, int total){
+
         try(Connection conn = sql2o.open()) {
-            return conn.createQuery("select TOP " + total + " v from emergencia e, voluntario v  " +
-                    "where SQRT(SQUARE(e.latitude - v.latitude) + SQUARE(e.longitude - v.longitude)) <= e.radius and " +
-                    "e.id_emergencia =" + id)
+            return conn.createQuery("select r.id_voluntario as id_voluntario from (select v.id_voluntario as id_voluntario, " +
+                    " |/((e.latitude - v.latitude)^2 + (e.longitude - v.longitude)^2) as " +
+                    " r  from emergencia e, voluntario v "+
+                    " where e.id_emergencia = :id " +
+                    " order by r " +
+                    " FETCH FIRST :total ROWS ONLY ) r")
+                    .addParameter("id", id)
+                    .addParameter("total", total)
                     .executeAndFetch(Voluntario.class);
+
+
+
+
         }
+
+
     }
+
 }

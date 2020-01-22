@@ -1,8 +1,6 @@
 package models;
 
 import java.awt.*;
-import org.postgis.*;
-import org.postgis.Point;
 
 public class Voluntario {
 

@@ -5,7 +5,8 @@ import models.Voluntario;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 
 public class Dimension_voluntarioSql2o {

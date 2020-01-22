@@ -5,13 +5,7 @@ import models.Voluntario;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.util.*;
-import java.util.ArrayList;
-import java.awt.*;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class VoluntarioSql2o {
     private Sql2o sql2o;

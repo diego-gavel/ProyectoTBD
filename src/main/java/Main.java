@@ -107,11 +107,11 @@ public class Main {
         get("/emergencias/:id/voluntarios", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.buscarVoluntariosCercanos(req.params(":id")));
         });
-
+        /*
         get("/emergencias/:id/voluntarios/:total", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.buscarNVoluntariosCercanos(req.params(":id"), req.params(":total")));
         });
-        
+        */
         post("/emergencias", (req, res)->{
             Emergencia emergencia = new Gson().fromJson(req.body(), Emergencia.class);
             int result = emergenciaSql2o.crearEmergencia(emergencia);
@@ -177,6 +177,20 @@ public class Main {
         //todos voluntarios para mapa
         get("/voluntariosMapa", (req, res)->{
             return new Gson().toJson(voluntarioSql2o.getAllVoluntarios());
+        });
+
+        get("/voluntariosMapaN", (req, res)->{
+            int id = 1;
+            if ( req.queryParams("id")!= null){
+                id = Integer.valueOf(req.queryParams("id"));
+            }
+
+            int total = 0;
+            if(req.queryParams("total")!=null){
+                total = Integer.valueOf(req.queryParams("total"));
+            }
+
+            return new Gson().toJson(emergenciaSql2o.buscarNVoluntariosCercanos(id, total));
         });
 
 
