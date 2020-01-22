@@ -100,6 +100,10 @@ public class Main {
             return new Gson().toJson(emergenciaSql2o.obtenerEmergencia(req.params(":id")));
         });
 
+        /*get("/emergencias/:nombre", (req, res)->{
+            return new Gson().toJson(emergenciaSql2o.obtenerEmergenciaNombre(req.params(":nombre")));
+        });*/
+
         get("/emergencias/:id/voluntarios", (req, res)->{
             return new Gson().toJson(emergenciaSql2o.buscarVoluntariosCercanos(req.params(":id")));
         });

@@ -21,7 +21,6 @@ CREATE TABLE Emergencia (
 	descripcion TEXT,
 	latitude float(20),
 	longitude float(20),
-	radius float(20);
 	PRIMARY KEY(id_emergencia)
 );
 

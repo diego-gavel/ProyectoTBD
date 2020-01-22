@@ -17,14 +17,14 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> getAllEmergencias(){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, radius, longitude from emergencia")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia")
                     .executeAndFetch(Emergencia.class);
         }
     }
 
     public List<Emergencia> getAllEmergenciasPaginated(int limit, int offset){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude, radius from emergencia limit :limit offset :offset")
+            return conn.createQuery("select id_emergencia, nombre, tipo, descripcion, latitude, longitude from emergencia limit :limit offset :offset")
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Emergencia.class);
@@ -41,14 +41,13 @@ public class EmergenciaSql2o {
 
     public int crearEmergencia(Emergencia emergencia){
         try(Connection conn = sql2o.open()){
-            int newId = conn.createQuery("insert into emergencia (nombre, tipo, descripcion, latitude, longitude, location, radius) values (:nombre, :tipo, :descripcion, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326), :radius)")
+            int newId = conn.createQuery("insert into emergencia (nombre, tipo, descripcion, latitude, longitude, location) values (:nombre, :tipo, :descripcion, :latitude, :longitude, ST_SetSRID(CAST(:location AS geometry), 4326))")
                     .addParameter("nombre", emergencia.getNombre())
                     .addParameter("tipo", emergencia.getTipo())
                     .addParameter("descripcion", emergencia.getDescripcion())
                     .addParameter("latitude", emergencia.getLatitude())
                     .addParameter("longitude", emergencia.getLongitude())
                     .addParameter("location", "POINT(" + emergencia.getLatitude() + " " + emergencia.getLongitude()+ ")")
-                    .addParameter("radius",  emergencia.getRadius())
                     .executeUpdate().getKey(Integer.class);
             System.out.println("Se agrego emergencia.");
             return newId;
@@ -57,7 +56,14 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> obtenerEmergencia(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, latitude, longitude from emergencia where id_emergencia = "+id)
+            return conn.createQuery("select id_emergencia, nombre, latitude, longitude, tipo from emergencia where id_emergencia = "+id)
+                    .executeAndFetch(Emergencia.class);
+        }
+    }
+
+    public List<Emergencia> obtenerEmergenciaNombre(String nombre){
+        try(Connection conn = sql2o.open()){
+            return conn.createQuery("select id_emergencia, nombre, latitude, longitude from emergencia where nombre = ads")
                     .executeAndFetch(Emergencia.class);
         }
     }
