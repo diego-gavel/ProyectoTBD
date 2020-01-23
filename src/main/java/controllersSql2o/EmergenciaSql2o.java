@@ -57,7 +57,7 @@ public class EmergenciaSql2o {
 
     public List<Emergencia> obtenerEmergencia(String id){
         try(Connection conn = sql2o.open()){
-            return conn.createQuery("select id_emergencia, nombre, latitude, longitude, tipo from emergencia where id_emergencia = "+id)
+            return conn.createQuery("select id_emergencia, nombre, latitude, longitude, tipo, descripcion from emergencia where id_emergencia = "+id)
                     .executeAndFetch(Emergencia.class);
         }
     }
