@@ -103,7 +103,9 @@ public class EmergenciaSql2o {
     public List<Voluntario> buscarNVoluntariosCercanos(int id, int total){
 
         try(Connection conn = sql2o.open()) {
-            return conn.createQuery("select r.id_voluntario as id_voluntario from (select v.id_voluntario as id_voluntario, " +
+            return conn.createQuery("select r.id_voluntario as id_voluntario , r.nombre as nombre , r.apellido as apellido " +
+                    " , r.correo as correo , r.sexo as sexo , r.latitude as latitude , r.longitude as longitude from (select v.id_voluntario as id_voluntario " +
+                    " , v.correo as correo , v.sexo as sexo , v.latitude as latitude , v.longitude as longitude  , v.nombre as nombre , v.apellido as apellido ," +
                     " |/((e.latitude - v.latitude)^2 + (e.longitude - v.longitude)^2) as " +
                     " r  from emergencia e, voluntario v "+
                     " where e.id_emergencia = :id " +
@@ -120,5 +122,7 @@ public class EmergenciaSql2o {
 
 
     }
+
+
 
 }
